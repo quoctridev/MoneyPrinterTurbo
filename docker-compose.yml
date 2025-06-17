@@ -1,5 +1,8 @@
+version: "3.8"
+
 x-common-volumes: &common-volumes
-  - ./:/MoneyPrinterTurbo
+  - ./src:/MoneyPrinterTurbo  # chứa toàn bộ source code (trừ config)
+  - config-volume:/MoneyPrinterTurbo/config.toml  # mount riêng file config
 
 services:
   webui:
@@ -9,9 +12,16 @@ services:
     container_name: "moneyprinterturbo-webui-dev"
     ports:
       - "8501:8501"
-    command: [ "streamlit", "run", "./webui/Main.py","--browser.serverAddress=127.0.0.1","--server.enableCORS=True","--browser.gatherUsageStats=False" ]
+    command:
+      - streamlit
+      - run
+      - ./webui/Main.py
+      - --browser.serverAddress=127.0.0.1
+      - --server.enableCORS=True
+      - --browser.gatherUsageStats=False
     volumes: *common-volumes
     restart: always
+
   api:
     build:
       context: .
@@ -19,6 +29,11 @@ services:
     container_name: "moneyprinterturbo-api-dev"
     ports:
       - "8080:8080"
-    command: [ "python3", "main.py" ]
+    command:
+      - python3
+      - main.py
     volumes: *common-volumes
     restart: always
+
+volumes:
+  config-volume:
