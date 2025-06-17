@@ -37,6 +37,7 @@ def save_config():
         _cfg["app"] = app
         _cfg["azure"] = azure
         _cfg["siliconflow"] = siliconflow
+        _cfg["gemini"] = gemini
         _cfg["ui"] = ui
         f.write(toml.dumps(_cfg))
 
@@ -45,6 +46,7 @@ _cfg = load_config()
 app = _cfg.get("app", {})
 whisper = _cfg.get("whisper", {})
 proxy = _cfg.get("proxy", {})
+gemini = _cfg.get("gemini", {})
 azure = _cfg.get("azure", {})
 siliconflow = _cfg.get("siliconflow", {})
 ui = _cfg.get(

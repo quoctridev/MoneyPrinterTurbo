@@ -30,7 +30,6 @@ COPY . .
 
 # Expose the port the app runs on
 EXPOSE 8501
-
 # Command to run the application
 CMD ["streamlit", "run", "./webui/Main.py","--browser.serverAddress=127.0.0.1","--server.enableCORS=True","--browser.gatherUsageStats=False"]
 

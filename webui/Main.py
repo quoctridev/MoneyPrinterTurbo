@@ -74,7 +74,7 @@ locales = utils.load_locales(i18n_dir)
 title_col, lang_col = st.columns([3, 1])
 
 with title_col:
-    st.title(f"MoneyPrinterTurbo v{config.project_version}")
+    st.title(f"Phần mềm tạo video tự động")
 
 with lang_col:
     display_languages = []
@@ -97,14 +97,8 @@ with lang_col:
         config.ui["language"] = code
 
 support_locales = [
-    "zh-CN",
-    "zh-HK",
-    "zh-TW",
-    "de-DE",
     "en-US",
-    "fr-FR",
     "vi-VN",
-    "th-TH",
 ]
 
 
@@ -662,7 +656,7 @@ with middle_panel:
             filtered_voices = voice.get_siliconflow_voices()
         else:
             # 获取Azure的声音列表
-            all_voices = voice.get_all_azure_voices(filter_locals=None)
+            all_voices = voice.get_all_voices(filter_locals=None)
 
             # 根据选择的TTS服务器筛选声音
             for v in all_voices:
