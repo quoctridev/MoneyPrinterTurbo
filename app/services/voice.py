@@ -103,10 +103,10 @@ VOICE_STYLES: dict[str, str] = {
     "Sadaltager": "Có kiến thức",
     "Sulafat": "Ấm áp",
 }
-def get_all_custom_voices(prefix: str = "custom") -> list[str]:
+def get_all_gemini_voices(prefix: str = "gemini") -> list[str]:
     """
     Trả về danh sách tên voice (thêm prefix tuỳ ý, mặc định 'custom:')
-    Ví dụ: custom:zephyr, custom:puck, ...
+    Ví dụ: gemini:zephyr, gemini:puck, ...
     """
     return [f"{prefix}:{name}" for name in VOICE_STYLES.keys()]
 
