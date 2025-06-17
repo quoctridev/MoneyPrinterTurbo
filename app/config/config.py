@@ -9,23 +9,39 @@ root_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__fi
 config_file = f"{root_dir}/config.toml"
 
 
-def load_config():
-    # fix: IsADirectoryError: [Errno 21] Is a directory: '/MoneyPrinterTurbo/config.toml'
-    if os.path.isdir(config_file):
-        shutil.rmtree(config_file)
 
+def load_config():
+    # Nếu config.toml chưa tồn tại → tạo từ bản mẫu
     if not os.path.isfile(config_file):
         example_file = f"{root_dir}/config.example.toml"
         if os.path.isfile(example_file):
-            shutil.copyfile(example_file, config_file)
-            logger.info("copy config.example.toml to config.toml")
+            try:
+                shutil.copyfile(example_file, config_file)
+                logger.info(" Đã tạo config.toml từ config.example.toml")
+            except Exception as e:
+                logger.error(f" Lỗi khi copy config: {e}")
+                raise
+        else:
+            logger.error(" Không tìm thấy config.example.toml để tạo config.toml")
+            raise FileNotFoundError("Thiếu cả config.toml và config.example.toml")
 
-    logger.info(f"load config from file: {config_file}")
+    logger.info(f" Load config từ file: {config_file}")
 
+    # Load file TOML
     try:
         _config_ = toml.load(config_file)
     except Exception as e:
-        logger.warning(f"load config failed: {str(e)}, try to load as utf-8-sig")
+        logger.warning(f" Lỗi load config (utf-8): {str(e)}, thử lại bằng utf-8-sig")
+        with open(config_file, mode="r", encoding="utf-8-sig") as fp:
+            _cfg_content = fp.read()
+            _config_ = toml.loads(_cfg_content)
+    return _config_
+
+    # Load file TOML
+    try:
+        _config_ = toml.load(config_file)
+    except Exception as e:
+        logger.warning(f"Lỗi khi load config (utf-8): {str(e)}, thử lại bằng utf-8-sig...")
         with open(config_file, mode="r", encoding="utf-8-sig") as fp:
             _cfg_content = fp.read()
             _config_ = toml.loads(_cfg_content)
