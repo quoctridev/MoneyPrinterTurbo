@@ -22,3 +22,4 @@ services:
     command: [ "python3", "main.py" ]
     volumes: *common-volumes
     restart: always
+
